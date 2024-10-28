@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Meu Sistema{% endblock %}</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        #jquery-accordion-menu {
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            background: #333;
+            color: #fff;
+        }
+
+        #jquery-accordion-menu ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        #jquery-accordion-menu li {
+            padding: 10px;
+            border-bottom: 1px solid #444;
+        }
+
+        #jquery-accordion-menu li.active a {
+            background: #444;
+        }
+
+        #jquery-accordion-menu a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+        }
+
+        .jquery-accordion-menu-header, .jquery-accordion-menu-footer {
+            padding: 15px;
+            text-align: center;
+            background: #444;
+        }
+
+        .submenu {
+            display: none;
+            padding-left: 15px;
+        }
+
+        .submenu li {
+            padding: 5px 10px;
+        }
+
+        .submenu .submenu {
+            padding-left: 30px;
+        }
+
+        #jquery-accordion-menu li.active > ul.submenu {
+            display: block;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+
+<!-- Sidebar Menu -->
+<div id="jquery-accordion-menu" class="jquery-accordion-menu">
+    <div class="jquery-accordion-menu-header">SysMap 1.0</div>
+    <ul>
+        <li>CADASTRAR</li>
+
+        <li><a href="{% url 'cadastrar_empresa' %}"><i class="fa fa-home"></i> Cadastro de Empresas</a></li>
+        <li><a href="{% url 'cadastrar_colaborador' %}"><i class="fa fa-home"></i> Cadastro de Colaborador</a></li>
+        <li>LISTAR</li>
+        <li><a href="{% url 'listar_colaboradores' %}"><i class="fa fa-users"></i> Lista de Colaboradores</a></li>
+        <li><a href="{% url 'listar_empresas' %}"><i class="fa fa-users"></i> Lista de Empresas</a></li>
+        <li>MAPA</li>
+
+        <li><a href="{% url 'mapa_empresas' %}"><i class="fa fa-map-marker"></i> Mapa de Empresas</a></li>
+        <li><a href="{% url 'mapa_colaboradores' %}"><i class="fa fa-map-marker"></i> Mapa de Colaboradores</a></li>
+    </ul>
+</div>
+
+<!-- Conteúdo Principal -->
+<div class="content">
+    <div class="container">
+        <h1 class="my-4">{% block page_title %}Bem-vindo ao Sistema{% endblock %}</h1>
+        {% if messages %}
+        <div id="message-alert">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </div>
+</div>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script>
+    // Função para alternar a exibição de submenus
+    $('#jquery-accordion-menu li').click(function () {
+        $(this).toggleClass('active').siblings().removeClass('active').find('.submenu').slideUp();
+        $(this).children('.submenu').slideToggle();
+    });
+
+    // Ocultar mensagens após 5 segundos
+    setTimeout(function () {
+        const alert = document.getElementById('message-alert');
+        if (alert) {
+            alert.style.display = 'none';
+        }
+    }, 5000);
+</script>
+</body>
+</html>

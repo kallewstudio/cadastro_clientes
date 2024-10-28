@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de Empresas{% endblock %}
+{% block page_title %}Lista de Empresas{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>CNPJ</th>
+                    <th>Cidade</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for empresas in listEmpresas %}
+                <tr>
+                    <td>{{ empresas.nome }}</td>
+                    <td>{{ empresas.cnpj }}</td>
+                    <td>{{ empresas.cidade }}</td>
+                    <td>{{ empresas.estado }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
